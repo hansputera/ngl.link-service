@@ -18,21 +18,23 @@ redisClient.subscribe('new_message', async (err, data) => {
 
 	if (data === 1) {
 		console.log('Connected to new_message redis channel!');
+	} else {
+		console.log(data);
 	}
 }).then(() => undefined).catch(() => undefined);
 
 server.on('error', err => {
 	console.log(err);
-}).on('connection', async (socket, request) => {
+}).on('connection', async socket => {
 	socket.on('close', () => {
 		const data = [...clients.entries()].find(c => c[1] === socket);
 		if (data) {
 			clients.delete(data[0]);
 		}
 	});
-	const allowed = await handleConnection(socket);
-	if (allowed && ![...clients.values()].includes(socket)) {
-		clients.set(request.headers['x-id']!.toString(), socket);
+	const payloadSocket = await handleConnection(socket);
+	if (payloadSocket && ![...clients.values()].includes(socket)) {
+		clients.set(payloadSocket.id, socket);
 	}
 }).on('listening', async () => {
 	const addr = server.address();

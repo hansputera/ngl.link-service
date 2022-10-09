@@ -12,17 +12,17 @@ type AuthPayload = {
 export const handleConnection = async (
 	socket: WebSocket,
 // eslint-disable-next-line no-async-promise-executor
-): Promise<boolean> => new Promise(async resolve => {
+): Promise<AuthPayload | undefined> => new Promise(async resolve => {
 	const disconnectTimeout = setTimeout(() => {
 		socket.close(1013, 'Try again later!');
-		resolve(false);
+		resolve(undefined);
 	}, 30_000);
 
 	socket.send(JSON.stringify({message: 'Please send auth payload in 30 secs'}));
 	socket.on('message', async (data, isBinary) => {
 		if (isBinary) {
 			socket.close(1003, 'Unsupported data!');
-			resolve(false);
+			resolve(undefined);
 		} else {
 			try {
 				// eslint-disable-next-line @typescript-eslint/no-base-to-string
@@ -34,7 +34,8 @@ export const handleConnection = async (
 				if (await validateAuth(payload.token, payload.id)) {
 					clearTimeout(disconnectTimeout);
 					socket.send(JSON.stringify({message: '[Success]: Auth success'}));
-					resolve(true);
+					socket.removeAllListeners('message');
+					resolve(payload);
 				} else {
 					socket.send(JSON.stringify({message: '[InvalidError]: Auth fail'}));
 				}
