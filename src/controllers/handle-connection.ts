@@ -28,18 +28,18 @@ export const handleConnection = async (
 				// eslint-disable-next-line @typescript-eslint/no-base-to-string
 				const payload = JSON.parse(data.toString('utf8')) as AuthPayload;
 				if (!payload.id?.length || !payload.token?.length) {
-					socket.close(3000, 'Incorrect auth payload');
+					socket.send(JSON.stringify({message: '[MissingError]: Incorrect auth payload'}));
 				}
 
-				if (!(await validateAuth(payload.token, payload.id))) {
-					socket.close(3000, 'Auth fail');
+				if (await validateAuth(payload.token, payload.id)) {
+					clearTimeout(disconnectTimeout);
+					socket.send(JSON.stringify({message: '[Success]: Auth success'}));
+					resolve(true);
+				} else {
+					socket.send(JSON.stringify({message: '[InvalidError]: Auth fail'}));
 				}
-
-				clearTimeout(disconnectTimeout);
-				socket.send(JSON.stringify({message: 'Auth success'}));
-				resolve(true);
 			} catch {
-				socket.close(3000, 'Incorrect auth payload');
+				socket.send(JSON.stringify({message: '[ParseError]: Incorrect auth payload'}));
 			}
 		}
 	});
