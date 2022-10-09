@@ -23,18 +23,15 @@ redisClient.subscribe('new_message', async (err, data) => {
 
 server.on('error', err => {
 	console.log(err);
-}).on('connection', (socket, request) => {
+}).on('connection', async (socket, request) => {
 	socket.on('close', () => {
 		const data = [...clients.entries()].find(c => c[1] === socket);
 		if (data) {
 			clients.delete(data[0]);
 		}
 	});
-	handleConnection(socket, request).catch(e => {
-		socket.close(1, (e as Error)?.message || e);
-	});
-
-	if (![...clients.values()].includes(socket)) {
+	const allowed = await handleConnection(socket, request);
+	if (allowed && ![...clients.values()].includes(socket)) {
 		clients.set(request.headers['x-id']!.toString(), socket);
 	}
 }).on('listening', async () => {
