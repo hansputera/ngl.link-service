@@ -2,17 +2,25 @@ lockfileVersion: 5.4
 
 specifiers:
   '@types/node': ^18.8.3
+  '@types/ws': ^8.5.3
   '@typescript-eslint/eslint-plugin': '>=5.31.0'
   '@typescript-eslint/parser': '>=5.31.0'
+  env-var: ^7.3.0
   esbuild: ^0.15.10
   eslint: '>=8.0.0'
   eslint-config-xo: ^0.42.0
   eslint-config-xo-typescript: ^0.53.0
   rimraf: ^3.0.2
   typescript: '>=4.4'
+  ws: ^8.9.0
+
+dependencies:
+  env-var: 7.3.0
+  ws: 8.9.0
 
 devDependencies:
   '@types/node': 18.8.3
+  '@types/ws': 8.5.3
   '@typescript-eslint/eslint-plugin': 5.39.0_cfd7h3iktziq6hcwahu2qxhjhy
   '@typescript-eslint/parser': 5.39.0_z4bbprzjrhnsfa24uvmcbu7f5q
   esbuild: 0.15.10
@@ -106,6 +114,12 @@ packages:
 
   /@types/node/18.8.3:
     resolution: {integrity: sha512-0os9vz6BpGwxGe9LOhgP/ncvYN5Tx1fNcd2TM3rD/aCGBkysb+ZWpXEocG24h6ZzOi13+VB8HndAQFezsSOw1w==}
+    dev: true
+
+  /@types/ws/8.5.3:
+    resolution: {integrity: sha512-6YOoWjruKj1uLf3INHH7D3qTXwFfEsg1kf3c0uDdSBJwfa/llkwIjrAGV7j7mVgGNbzTQ3HiHKKDXl6bJPD97w==}
+    dependencies:
+      '@types/node': 18.8.3
     dev: true
 
   /@typescript-eslint/eslint-plugin/5.39.0_cfd7h3iktziq6hcwahu2qxhjhy:
@@ -366,6 +380,11 @@ packages:
     dependencies:
       esutils: 2.0.3
     dev: true
+
+  /env-var/7.3.0:
+    resolution: {integrity: sha512-qwtwYJ9d3XFxXRDudPEAMszaggpDgcfb1ZGYb9/cNyMugN2/a8EtviopnRL6c+petj2vp6/gxwYd9ExL1/iPcw==}
+    engines: {node: '>=10'}
+    dev: false
 
   /esbuild-android-64/0.15.10:
     resolution: {integrity: sha512-UI7krF8OYO1N7JYTgLT9ML5j4+45ra3amLZKx7LO3lmLt1Ibn8t3aZbX5Pu4BjWiqDuJ3m/hsvhPhK/5Y/YpnA==}
@@ -1185,6 +1204,19 @@ packages:
   /wrappy/1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
     dev: true
+
+  /ws/8.9.0:
+    resolution: {integrity: sha512-Ja7nszREasGaYUYCI2k4lCKIRTt+y7XuqVoHR44YpI49TtryyqbqvDMn5eqfW7e6HzTukDRIsXqzVHScqRcafg==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: ^5.0.2
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+    dev: false
 
   /yallist/4.0.0:
     resolution: {integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==}
