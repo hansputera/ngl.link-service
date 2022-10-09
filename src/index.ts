@@ -33,7 +33,11 @@ server.on('error', err => {
 		}
 	});
 	const payloadSocket = await handleConnection(socket);
-	if (payloadSocket && ![...clients.values()].includes(socket)) {
+	if (payloadSocket) {
+		if (clients.has(payloadSocket.id)) {
+			clients.get(payloadSocket.id)!.close(1001, 'Another session is being connected');
+		}
+
 		clients.set(payloadSocket.id, socket);
 	}
 }).on('listening', async () => {
