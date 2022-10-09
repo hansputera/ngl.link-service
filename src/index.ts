@@ -1,4 +1,17 @@
 import 'dotenv/config';
-import * as env from './env';
+import ws from 'ws';
+import {portWebsocket} from './env';
 
-console.log(env.portWebsocket, env.redisUri);
+const server = new ws.WebSocketServer({
+	port: portWebsocket,
+	host: '0.0.0.0',
+});
+
+server.on('error', err => {
+	console.log(err);
+}).on('connection', socket => {
+	socket.send('Hi!');
+	socket.close();
+}).on('listening', () => {
+	console.log(server.address());
+});
