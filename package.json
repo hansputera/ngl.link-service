@@ -1,0 +1,29 @@
+{
+  "name": "ngl.link-service",
+  "version": "1.0.0",
+  "description": "Ngl.link Notification Service",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint \"src/**/*.ts\" --fix",
+    "clean": "rimraf dist",
+    "build": "esbuild src/index.ts --format=esm --tsconfig=tsconfig.json --platform=node --bundle --outfile=dist/index.js --minify --target=node16"
+  },
+  "keywords": [
+    "ngl.link",
+    "ngl.link-clone"
+  ],
+  "author": "Hanif Dwy Putra S <hanifdwyputrasembiring@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^18.8.3",
+    "@typescript-eslint/eslint-plugin": ">=5.31.0",
+    "@typescript-eslint/parser": ">=5.31.0",
+    "esbuild": "^0.15.10",
+    "eslint": ">=8.0.0",
+    "eslint-config-xo": "^0.42.0",
+    "eslint-config-xo-typescript": "^0.53.0",
+    "rimraf": "^3.0.2",
+    "typescript": ">=4.4"
+  },
+  "type": "module"
+}
