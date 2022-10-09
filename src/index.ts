@@ -30,7 +30,7 @@ server.on('error', err => {
 			clients.delete(data[0]);
 		}
 	});
-	const allowed = await handleConnection(socket, request);
+	const allowed = await handleConnection(socket);
 	if (allowed && ![...clients.values()].includes(socket)) {
 		clients.set(request.headers['x-id']!.toString(), socket);
 	}

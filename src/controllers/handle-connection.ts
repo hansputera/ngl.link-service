@@ -4,24 +4,43 @@ import {validateAuth} from '../services/validate-auth';
 
 // Close codes ref: https://www.iana.org/assignments/websocket/websocket.xhtml
 
+type AuthPayload = {
+	token: string;
+	id: string;
+};
+
 export const handleConnection = async (
 	socket: WebSocket,
-	request: IncomingMessage,
-): Promise<boolean> => {
-	// 1.1 Authentication
-	const token = request.headers['x-token']?.toString();
-	const id = request.headers['x-id']?.toString();
+// eslint-disable-next-line no-async-promise-executor
+): Promise<boolean> => new Promise(async resolve => {
+	const disconnectTimeout = setTimeout(() => {
+		socket.close(1013, 'Try again later!');
+		resolve(false);
+	}, 30_000);
 
-	if (!token?.length || !id?.length) {
-		socket.close(3000, 'Auth required');
-		return false;
-	}
+	socket.send(JSON.stringify({message: 'Please send auth payload in 30 secs'}));
+	socket.on('message', async (data, isBinary) => {
+		if (isBinary) {
+			socket.close(1003, 'Unsupported data!');
+			resolve(false);
+		} else {
+			try {
+				// eslint-disable-next-line @typescript-eslint/no-base-to-string
+				const payload = JSON.parse(data.toString('utf8')) as AuthPayload;
+				if (!payload.id?.length || !payload.token?.length) {
+					socket.close(3000, 'Incorrect auth payload');
+				}
 
-	if (!(await validateAuth(token, id))) {
-		socket.close(3000, 'Auth failed');
-		return false;
-	}
+				if (!(await validateAuth(payload.token, payload.id))) {
+					socket.close(3000, 'Auth fail');
+				}
 
-	socket.send({message: 'Auth success!'});
-	return true;
-};
+				clearTimeout(disconnectTimeout);
+				socket.send(JSON.stringify({message: 'Auth success'}));
+				resolve(true);
+			} catch {
+				socket.close(3000, 'Incorrect auth payload');
+			}
+		}
+	});
+});
