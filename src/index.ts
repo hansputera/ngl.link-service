@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import ws from 'ws';
+import * as ws from 'ws';
 import {portWebsocket} from './env';
 
 const server = new ws.WebSocketServer({
@@ -13,5 +13,11 @@ server.on('error', err => {
 	socket.send('Hi!');
 	socket.close();
 }).on('listening', () => {
-	console.log(server.address());
+	const addr = server.address();
+	console.log(
+		'NotificationServer listening to',
+		typeof addr === 'string' ? addr : addr.address.concat(
+			':', addr.port.toString(),
+		),
+	);
 });
