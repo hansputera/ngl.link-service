@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint \"src/**/*.ts\" --fix",
     "clean": "rimraf dist",
-    "build": "esbuild src/index.ts --format=esm --tsconfig=tsconfig.json --platform=node --bundle --outfile=dist/index.js --minify --target=node16"
+    "build": "esbuild src/index.ts --format=cjs --tsconfig=tsconfig.json --platform=node --bundle --outfile=dist/index.js --minify --target=node16"
   },
   "keywords": [
     "ngl.link",
@@ -26,7 +26,6 @@
     "rimraf": "^3.0.2",
     "typescript": ">=4.4"
   },
-  "type": "module",
   "dependencies": {
     "dotenv": "^16.0.3",
     "env-var": "^7.3.0",

@@ -1,3 +1,4 @@
-import * as process from 'node:process';
+import 'dotenv/config';
+import * as env from './env';
 
-process.stdout.write('Hello World!\n');
+console.log(env.portWebsocket, env.redisUri);
