@@ -2,7 +2,7 @@
   "name": "ngl.link-service",
   "version": "1.0.0",
   "description": "Ngl.link Notification Service",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "lint": "eslint \"src/**/*.ts\" --fix",
     "clean": "rimraf dist",
